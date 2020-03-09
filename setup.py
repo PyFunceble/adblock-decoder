@@ -59,8 +59,9 @@ License:
     SOFTWARE.
 """
 
-from setuptools import setup, find_packages
 from re import compile as comp
+
+from setuptools import find_packages, setup
 
 
 def get_requirements():
@@ -85,6 +86,15 @@ def get_version():
         open("adblock_decoder/__init__.py", encoding="utf-8").read()
     )[0]
 
+
+def get_long_description():
+    """
+    Provides the long description.
+    """
+
+    return open("README.rst", encoding="utf-8").read()
+
+
 if __name__ == "__main__":
     setup(
         name="adblock-decoder",
@@ -98,13 +108,8 @@ if __name__ == "__main__":
         url="https://github.com/PyFunceble/adblock-decoder",
         platforms=["any"],
         packages=find_packages(),
-        keywords=[
-            "PyFunceble",
-            "AdBlock",
-            "Filter",
-            "list",
-            "decoder"
-        ],
+        long_description=get_long_description(),
+        keywords=["PyFunceble", "AdBlock", "Filter", "list", "decoder"],
         classifiers=[
             "Environment :: Console",
             "Topic :: Internet",
@@ -120,7 +125,7 @@ if __name__ == "__main__":
         entry_points={
             "console_scripts": [
                 "adblock2hosts=adblock_decoder.cli:adblock2host",
-                "adblock2plain=adblock_decoder.cli:adblock2plain"
+                "adblock2plain=adblock_decoder.cli:adblock2plain",
             ]
-        }
+        },
     )
