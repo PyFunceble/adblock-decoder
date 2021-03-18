@@ -61,9 +61,9 @@ License:
     SOFTWARE.
 """
 
-from tempfile import TemporaryDirectory
+from typing import Optional
 
-import PyFunceble
+from PyFunceble.converter.adblock_input_line2subject import AdblockInputLine2Subject
 
 
 class BaseCore:
@@ -71,37 +71,52 @@ class BaseCore:
     Provides the base of all cores.
     """
 
-    def __init__(self):
-        temp_config_dir = TemporaryDirectory()
-        PyFunceble.helpers.EnvironmentVariable("PYFUNCEBLE_CONFIG_DIR").set_value(
-            temp_config_dir.name
-        )
-        PyFunceble.load_config()
+    _aggressive: bool = False
 
-        self.aggresive = False
+    decoder: Optional[AdblockInputLine2Subject] = None
 
-    def set_aggressive(self, value):
+    def __init__(self, aggressive: Optional[bool] = None):
+        if aggressive is not None:
+            self.aggressive = aggressive
+
+        self.decoder = AdblockInputLine2Subject()
+
+    @property
+    def aggressive(self) -> bool:
         """
-        Sets the value of the aggressive variable.
-        """
-
-        self.aggresive = value
-
-    def get_aggressive(self):
-        """
-        Provides the value of the aggressive variable.
+        Provides the current state of the aggressive attribute.
         """
 
-        return self.aggresive
+        return self.decoder.aggressive
 
-    def decode_line(self, line):
+    @aggressive.setter
+    def aggressive(self, value: bool) -> None:
+        """
+        Overwrites the current state of the aggressive attribute.
+
+        :param value:
+            The value to set.
+        """
+
+        self.decoder.aggressive = value
+
+    def set_aggressive(self, value: bool) -> "BaseCore":
+        """
+        Overwrites the current state of the aggressive attribute.
+
+        :param value:
+            The value to set.
+        """
+
+        self.aggressive = value
+
+        return self
+
+    def decode_line(self, line: str):
         """
         Decodes a single line.
         """
 
         return (
-            x
-            for x in PyFunceble.converter.AdBlock(
-                line.strip(), aggressive=self.aggresive
-            ).get_converted()
+            x for x in self.decoder.set_data_to_convert(line.strip()).get_converted()
         )

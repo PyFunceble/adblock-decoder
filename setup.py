@@ -109,6 +109,11 @@ if __name__ == "__main__":
         platforms=["any"],
         packages=find_packages(),
         long_description=get_long_description(),
+        project_urls={
+            "Funding": "https://github.com/sponsors/funilrys",
+            "Source": "https://github.com/PyFunceble/adblock-decoder",
+            "Tracker": "https://github.com/funilrys/PyFunceble/issues",
+        },
         keywords=["PyFunceble", "AdBlock", "Filter", "list", "decoder"],
         classifiers=[
             "Environment :: Console",

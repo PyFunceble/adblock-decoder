@@ -1,5 +1,5 @@
-adblock-decoder
-===============
+AdBlock Filter List Decoder
+===========================
 
 A set of tools for the decoding and conversion of AdBlock and filter lists.
 The decoder itself is part of the PyFunceble project.
@@ -10,6 +10,34 @@ Installation
 ::
 
     $ pip install --user adblock-decoder
+
+Python API
+----------
+
+If you want to use the decoder in your own Python modules or infrastructure,
+you may use the PyFunceble project to access the decoder.
+
+
+::
+
+    from PyFunceble.converter.adblock_input_line2subject import AdblockInputLine2Subject
+
+    to_decode = ["||example.com^", "||example.net^"]
+
+    decoder = AdblockInputLine2Subject()
+    decoder.aggressive = False
+
+    decoded = set()
+
+    for line in to_decode:
+        # One shot method.
+        decoded.update(decoder.set_data_to_convert(to_decode).get_converted())
+
+        # Step by step method
+        decoder.set_data_to_convert(to_decode)
+        decoded.update(decoder.get_converted())
+
+    print("Decoded:", decoded)
 
 Tools
 -----
@@ -74,8 +102,8 @@ License
 
     MIT License
 
-    Copyright (c) 2020 PyFunceble
-    Copyright (c) 2020 Nissar Chababy
+    Copyright (c) 2020, 2021 PyFunceble
+    Copyright (c) 2020, 2021 Nissar Chababy
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

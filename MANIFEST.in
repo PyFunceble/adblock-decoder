@@ -1,4 +1,6 @@
-recursive-include adblock_decoder *.py
+graft adblock_decoder
+global-exclude __pycache__
+global-exclude *.py[co]
 include LICENSE
 include requirements.txt
 include README.rst
