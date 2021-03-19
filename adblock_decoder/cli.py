@@ -138,5 +138,5 @@ def adblock2host() -> None:
     args = parser.parse_args()
 
     AdBlock2Hosts(
-        args.input_file, args.aggressive, output=args.output, ip=args.ip
+        args.input_file, args.aggressive, output=args.output, hosts_ip=args.ip
     ).process_conversion()
