@@ -56,7 +56,8 @@ import argparse
 
 from colorama import Fore, Style
 
-from .core import AdBlock2Hosts, AdBlock2Plain
+from adblock_decoder.core.adblock2hosts import AdBlock2Hosts
+from adblock_decoder.core.adblock2plain import AdBlock2Plain
 
 
 def adblock2plain() -> None:

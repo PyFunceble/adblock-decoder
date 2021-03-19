@@ -55,7 +55,7 @@ License:
 from io import TextIOWrapper
 from typing import Optional
 
-from .io_base import IOBase
+from adblock_decoder.core.io_base import IOBase
 
 
 class AdBlock2Hosts(IOBase):

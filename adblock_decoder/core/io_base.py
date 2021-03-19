@@ -55,8 +55,8 @@ License:
 from io import TextIOWrapper
 from typing import Optional
 
-from ..exceptions import InputNotAFileWrapper, OutputNotAFileWrapper
-from .base import BaseCore
+from adblock_decoder.core.base import BaseCore
+from adblock_decoder.exceptions import InputNotAFileWrapper, OutputNotAFileWrapper
 
 
 class IOBase(BaseCore):
