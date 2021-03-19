@@ -60,6 +60,3 @@ License:
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 """
-
-from .adblock2hosts import AdBlock2Hosts
-from .adblock2plain import AdBlock2Plain

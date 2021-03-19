@@ -80,7 +80,7 @@ def get_version():
     Extracts the version from adblock_decoder/__init__.py
     """
 
-    to_match = comp(r'VERSION\s=\s"(.*)"\n')
+    to_match = comp(r'__version__\s=\s"(.*)"')
 
     return to_match.findall(
         open("adblock_decoder/__init__.py", encoding="utf-8").read()

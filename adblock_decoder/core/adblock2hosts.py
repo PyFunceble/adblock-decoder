@@ -61,21 +61,40 @@ License:
     SOFTWARE.
 """
 
+from io import TextIOWrapper
+from typing import Optional
+
 from .io_base import IOBase
 
 
 class AdBlock2Hosts(IOBase):
     """
     Provides the core of the adblock2hosts decoder.
+
+    :param input_file:
+        The input file to traverse.
+    :param aggressive:
+        The decoding mode.
+    :param output:
+        The output file to write.
+    :param hosts_ip:
+        The IP to preffix each lines with.
     """
 
-    def __init__(self, input_file, aggressive, output=None, ip="0.0.0.0"):
+    hosts_ip: str = None
+
+    def __init__(
+        self,
+        input_file: TextIOWrapper,
+        aggressive: bool = False,
+        output: Optional[TextIOWrapper] = None,
+        hosts_ip: str = "0.0.0.0",
+    ):
         super().__init__(input_file, aggressive=aggressive, output=output)
 
-        # pylint: disable=invalid-name
-        self.ip = ip
+        self.hosts_ip = hosts_ip
 
-    def process_conversion(self):
+    def process_conversion(self) -> None:
         """
         Process the actual conversion.
         """
@@ -83,6 +102,6 @@ class AdBlock2Hosts(IOBase):
         for line in self.input:
             for converted in self.decode_line(line):
                 if self.output:
-                    self.output.write(f"{self.ip} {converted}\n")
+                    self.output.write(f"{self.hosts_ip} {converted}\n")
                 else:
-                    print(f"{self.ip} {converted}")
+                    print(f"{self.hosts_ip} {converted}")

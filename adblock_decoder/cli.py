@@ -68,85 +68,83 @@ from colorama import Fore, Style
 from .core import AdBlock2Hosts, AdBlock2Plain
 
 
-def adblock2plain():
+def adblock2plain() -> None:
     """
     Provides the CLI entrypoint of the adblock2plain tool.
     """
 
-    if __name__ == "adblock_decoder.cli":
-        parser = argparse.ArgumentParser(
-            description="An AdBlock2plain (text) converter.",
-            epilog=f"Crafted with {Fore.RED}{Style.BRIGHT}♥{Style.RESET_ALL} "
-            f"by {Fore.YELLOW}{Style.BRIGHT}Nissar Chababy (Funilrys){Style.RESET_ALL}!",
-            add_help=True,
-        )
+    parser = argparse.ArgumentParser(
+        description="An AdBlock2plain (text) converter.",
+        epilog=f"Crafted with {Fore.RED}{Style.BRIGHT}♥{Style.RESET_ALL} "
+        f"by {Fore.YELLOW}{Style.BRIGHT}Nissar Chababy (Funilrys){Style.RESET_ALL}!",
+        add_help=True,
+    )
 
-        parser.add_argument(
-            "input_file",
-            type=argparse.FileType("r", encoding="utf-8"),
-            help="The input file to work with.",
-        )
+    parser.add_argument(
+        "input_file",
+        type=argparse.FileType("r", encoding="utf-8"),
+        help="The input file to work with.",
+    )
 
-        parser.add_argument(
-            "--aggressive",
-            action="store_true",
-            help="[USE AT YOUR OWN RISK AS IT IS EXPERIMENTAL] Activates the extraction "
-            "of everything regardless of the interpretation of AdBlock/UBlock.",
-        )
+    parser.add_argument(
+        "--aggressive",
+        action="store_true",
+        help="[USE AT YOUR OWN RISK AS IT IS EXPERIMENTAL] Activates the extraction "
+        "of everything regardless of the interpretation of AdBlock/UBlock.",
+    )
 
-        parser.add_argument(
-            "-o",
-            "--output",
-            type=argparse.FileType("w", encoding="utf-8"),
-            help="The file to write to.",
-        )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=argparse.FileType("w", encoding="utf-8"),
+        help="The file to write to.",
+    )
 
-        args = parser.parse_args()
+    args = parser.parse_args()
 
-        AdBlock2Plain(
-            args.input_file, args.aggressive, output=args.output
-        ).process_conversion()
+    AdBlock2Plain(
+        args.input_file, args.aggressive, output=args.output
+    ).process_conversion()
 
 
-def adblock2host():
+def adblock2host() -> None:
     """
     Provides the CLI entrypoint of the adblock2hosts tool.
     """
 
-    if __name__ == "adblock_decoder.cli":
-        parser = argparse.ArgumentParser(
-            description="An AdBlock2hosts converter.",
-            epilog=f"Crafted with {Fore.RED}{Style.BRIGHT}♥{Style.RESET_ALL} "
-            f"by {Fore.YELLOW}{Style.BRIGHT}Nissar Chababy (Funilrys){Style.RESET_ALL}!",
-            add_help=True,
-        )
+    parser = argparse.ArgumentParser(
+        description="An AdBlock2hosts converter.",
+        epilog=f"Crafted with {Fore.RED}{Style.BRIGHT}♥{Style.RESET_ALL} "
+        f"by {Fore.YELLOW}{Style.BRIGHT}Nissar Chababy (Funilrys){Style.RESET_ALL}!",
+        add_help=True,
+    )
 
-        parser.add_argument(
-            "input_file",
-            type=argparse.FileType("r"),
-            help="The input file to work with.",
-        )
+    parser.add_argument(
+        "input_file",
+        type=argparse.FileType("r"),
+        help="The input file to work with.",
+    )
 
-        parser.add_argument(
-            "--aggressive",
-            action="store_true",
-            help="[USE AT YOUR OWN RISK AS IT IS EXPERIMENTAL] Activates the extraction "
-            "of everything regardless of the interpretation of AdBlock/UBlock.",
-        )
+    parser.add_argument(
+        "--aggressive",
+        action="store_true",
+        help="[USE AT YOUR OWN RISK AS IT IS EXPERIMENTAL] Activates the extraction "
+        "of everything regardless of the interpretation of AdBlock/UBlock.",
+    )
 
-        parser.add_argument(
-            "--ip",
-            type=str,
-            help="Sets the IP to use while generating the hosts file.",
-            default="0.0.0.0",
-        )
+    parser.add_argument(
+        "--ip",
+        type=str,
+        help="Sets the IP to use while generating the hosts file.",
+        default="0.0.0.0",
+    )
 
-        parser.add_argument(
-            "-o", "--output", type=argparse.FileType("w"), help="The file to write to."
-        )
+    parser.add_argument(
+        "-o", "--output", type=argparse.FileType("w"), help="The file to write to."
+    )
 
-        args = parser.parse_args()
+    args = parser.parse_args()
 
-        AdBlock2Hosts(
-            args.input_file, args.aggressive, output=args.output, ip=args.ip
-        ).process_conversion()
+    AdBlock2Hosts(
+        args.input_file, args.aggressive, output=args.output, ip=args.ip
+    ).process_conversion()

@@ -61,7 +61,7 @@ License:
     SOFTWARE.
 """
 
-from typing import Optional
+from typing import Iterable, Optional
 
 from PyFunceble.converter.adblock_input_line2subject import AdblockInputLine2Subject
 
@@ -69,6 +69,11 @@ from PyFunceble.converter.adblock_input_line2subject import AdblockInputLine2Sub
 class BaseCore:
     """
     Provides the base of all cores.
+
+    :param aggressive:
+        Activates or disable the decode in an aggressive matter. When active,
+        the decoder will try to decode as much as possible without taking the
+        basic of adblock filter list codex into consideration.
     """
 
     _aggressive: bool = False
@@ -112,9 +117,12 @@ class BaseCore:
 
         return self
 
-    def decode_line(self, line: str):
+    def decode_line(self, line: str) -> Iterable[str]:
         """
         Decodes a single line.
+
+        :param line:
+            The line to decode.
         """
 
         return (

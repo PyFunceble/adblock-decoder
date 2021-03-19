@@ -61,18 +61,33 @@ License:
     SOFTWARE.
 """
 
+from io import TextIOWrapper
+from typing import Optional
+
 from .io_base import IOBase
 
 
 class AdBlock2Plain(IOBase):
     """
     Provides the core of the adblock2plain decoder.
+
+    :param input_file:
+        The input file to traverse.
+    :param aggressive:
+        The decoding mode.
+    :param output:
+        The output file to write.
     """
 
-    def __init__(self, input_file, aggressive, output=None):
+    def __init__(
+        self,
+        input_file: TextIOWrapper,
+        aggressive: bool = False,
+        output: Optional[TextIOWrapper] = None,
+    ):
         super().__init__(input_file, aggressive, output=output)
 
-    def process_conversion(self):
+    def process_conversion(self) -> None:
         """
         Process the actual conversion.
         """

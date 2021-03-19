@@ -62,6 +62,7 @@ License:
 """
 
 from io import TextIOWrapper
+from typing import Optional
 
 from ..exceptions import InputNotAFileWrapper, OutputNotAFileWrapper
 from .base import BaseCore
@@ -70,9 +71,21 @@ from .base import BaseCore
 class IOBase(BaseCore):
     """
     Provides the base of the I/O classes.
+
+    :param input_file:
+        The input file to traverse.
+    :param aggressive:
+        The decoding mode.
+    :param output:
+        The output file to write.
     """
 
-    def __init__(self, input_file, aggressive=False, output=None):
+    def __init__(
+        self,
+        input_file: TextIOWrapper,
+        aggressive: bool = False,
+        output: Optional[TextIOWrapper] = None,
+    ):
         super().__init__()
 
         if not isinstance(input_file, TextIOWrapper):
@@ -86,7 +99,7 @@ class IOBase(BaseCore):
         self.input = input_file
         self.output = output
 
-    def process_conversion(self):
+    def process_conversion(self) -> None:
         """
         Process the actual conversion.
         """
