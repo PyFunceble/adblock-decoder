@@ -31,10 +31,10 @@ you may use the PyFunceble project to access the decoder.
 
     for line in to_decode:
         # One shot method.
-        decoded.update(decoder.set_data_to_convert(to_decode).get_converted())
+        decoded.update(decoder.set_data_to_convert(line).get_converted())
 
         # Step by step method
-        decoder.set_data_to_convert(to_decode)
+        decoder.set_data_to_convert(line)
         decoded.update(decoder.get_converted())
 
     print("Decoded:", decoded)
