@@ -1,0 +1,147 @@
+name: AdBlock Decoder Deployment Workflow
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: Lint project
+
+    runs-on: "${{ matrix.os }}"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version:
+          - "3.9.1"
+        os:
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Clone repository
+
+      - name: Set up Python ${{ matrix.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: Install dependencies
+        run: |
+          pip install flake8
+          pip install .
+
+      - name: Lint project with Flake8
+        run: flake8 ultimate_hosts_blacklist
+
+  run_adblock2plain:
+    needs: lint
+    name: "Run adblock2plain"
+
+    runs-on: "${{ matrix.os }}"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version:
+          - "3.9.1"
+        os:
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Clone repository
+
+      - name: Set up Python ${{ matrix.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: Install dependencies
+        run: |
+          pip install .
+
+      - name: Prepare files.
+        run: |
+          curl https://easylist.to/easylist/easylist.txt --output ${{ github.workspace }}/easylist.txt
+
+      - name: Launch adblock2plain
+        run: |
+          adblock2plain --aggressive ${{ github.workspace }}/easylist.txt
+
+  run_adblock2hosts:
+    needs: lint
+    name: "Run adblock2hosts"
+
+    runs-on: "${{ matrix.os }}"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version:
+          - "3.9.1"
+        os:
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Clone repository
+
+      - name: Set up Python ${{ matrix.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: Install dependencies
+        run: |
+          pip install .
+
+      - name: Prepare files.
+        run: |
+          curl https://easylist.to/easylist/easylist.txt --output ${{ github.workspace }}/easylist.txt
+
+      - name: Launch adblock2plain
+        run: |
+          adblock2hosts --aggressive ${{ github.workspace }}/easylist.txt
+
+  deploy_pypi:
+    needs: [run_adblock2plain, run_adblock2hosts]
+    name: "Deploy 📦 to the PyPi"
+
+    runs-on: "${{ matrix.os }}"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python_version:
+          - "3.9.1"
+        os:
+          - ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Clone repository
+
+      - name: Set up Python ${{ matrix.python_version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python_version }}
+
+      - name: Install dependencies
+        run: |
+          pip install twine wheel setuptools
+
+      - name: Build 📦
+        run: |
+          python setup.py sdist bdist_wheel
+
+      - name: Check 📦
+        run: |
+          twine check dist/*
+
+      - name: Publish 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip_existing: true
