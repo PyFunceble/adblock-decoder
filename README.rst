@@ -11,6 +11,13 @@ Installation
 
     $ pip install --user adblock-decoder
 
+Update
+------
+
+::
+
+    $ pip install --user --upgrade adblock-decoder
+
 Python API
 ----------
 
