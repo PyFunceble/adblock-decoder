@@ -83,7 +83,7 @@ def adblock2plain():
 
         parser.add_argument(
             "input_file",
-            type=argparse.FileType("r"),
+            type=argparse.FileType("r", encoding="utf-8"),
             help="The input file to work with.",
         )
 
@@ -95,7 +95,10 @@ def adblock2plain():
         )
 
         parser.add_argument(
-            "-o", "--output", type=argparse.FileType("w"), help="The file to write to."
+            "-o",
+            "--output",
+            type=argparse.FileType("w", encoding="utf-8"),
+            help="The file to write to.",
         )
 
         args = parser.parse_args()
