@@ -33,7 +33,7 @@ jobs:
           pip install .
 
       - name: Lint project with Flake8
-        run: flake8 ultimate_hosts_blacklist
+        run: flake8 adblock_decoder
 
   run_adblock2plain:
     needs: lint
